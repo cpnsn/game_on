@@ -19,20 +19,21 @@ const form = document.forms["reserve"]
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
-// launch modal form
+// open modal form
 function launchModal() {
   modalbg.style.display = "block";
 }
 
-// close modal event
+
+// launch form events
+modalCloseBtn.addEventListener("click", function() {
+  closeModal();
+});
+
 modalSpan.forEach(span => {
   span.addEventListener("click", function() {
     closeModal();
   });
-});
-
-modalCloseBtn.addEventListener("click", function() {
-  closeModal();
 });
 
 // close modal form and thank you message
@@ -41,9 +42,8 @@ function closeModal() {
   thanks.style.display = "none";
 }
 
-form.addEventListener('submit', function(e) {
-  e.preventDefault();
-
+// form validation
+  function validate() {
   const inputs = form.querySelectorAll('.text-control');
   let formIsValid = true;
 
@@ -96,8 +96,9 @@ form.addEventListener('submit', function(e) {
   }
 
   if (formIsValid) {
-    // form.style.display = "none";
     thanks.style.display = "flex";
     modalbg.style.display = "none";
   }
-});
+
+  return formIsValid;
+}
