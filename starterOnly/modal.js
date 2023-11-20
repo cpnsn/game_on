@@ -42,63 +42,90 @@ function closeModal() {
   thanks.style.display = "none";
 }
 
-// form validation
-  function validate() {
+// text-control inputs validation
+function validateInputs() {
+  let isValid = true;
   const inputs = form.querySelectorAll('.text-control');
-  let formIsValid = true;
 
-  inputs.forEach(input => {
+  for (const input of inputs) {
     const error = document.getElementById(`error-${input.id}`);
+    let isValidInput = true;
     if (input.id === 'first' && !/^[A-Za-zÀ-ÖØ-öø-ÿ-' ]{2,}$/.test(input.value)) {
       error.style.display = "block";
-      formIsValid = false; 
+      isValidInput = false;
     } else if (input.id === 'last' && !/^[A-Za-zÀ-ÖØ-öø-ÿ-' ]{2,}$/.test(input.value)) {
       error.style.display = "block";
-      formIsValid = false;
+      isValidInput = false;
     } else if (input.id === 'email' && !/^\S+@\S+\.\S+$/.test(input.value)) {
       error.style.display = "block";
-      formIsValid = false;
+      isValidInput = false;
     } else if (input.id === 'birthdate' && !input.value) {
       error.style.display = "block";
-      formIsValid = false;
+      isValidInput = false;
     } else if (input.id === 'quantity' && (input.value.length < 1 || isNaN(input.value))) {
       error.style.display = "block";
-      formIsValid = false;
+      isValidInput = false;
     } else {
       error.style.display = "none";
     }
-  });
+    
+    if (!isValidInput) {
+      isValid = false;
+    }
+  }
+  return isValid;
+}
 
+// location checkboxes validation
+function validateLocation() {
+  let isValid = false;
   const locationInputs = form.querySelectorAll('input[name="location"]');
   let locationChecked = false;
-
+  
   locationInputs.forEach(input => {
     if (input.checked) {
       locationChecked = true;
     }
   });
-
+  
   const errorLocation = document.getElementById('error-location');
   if (!locationChecked) {
     errorLocation.style.display = "block";
-    formIsValid = false;
   } else {
     errorLocation.style.display = "none";
+    isValid = true;
   }
+  return isValid;
+}
 
+// condition validation
+function validateCondition() {
+  let isValid = false;
   const errorCondition = document.getElementById('error-checkbox1');
   const conditionInput = document.getElementById('checkbox1');
   if (!conditionInput.checked) {
     errorCondition.style.display = "block";
-    formIsValid = false;
   } else {
     errorCondition.style.display = "none";
+    isValid = true;
   }
+  return isValid;
+}
 
-  if (formIsValid) {
+// form validation
+function validate() {
+  const isValidInputs = validateInputs();
+  const isValidLocation = validateLocation();
+  const isValidCondition = validateCondition();
+
+  return isValidInputs && isValidLocation && isValidCondition;
+}
+
+// form submition
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+  if (validate()) {
     thanks.style.display = "flex";
     modalbg.style.display = "none";
-  }
-
-  return formIsValid;
-}
+  } 
+})
