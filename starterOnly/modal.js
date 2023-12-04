@@ -15,6 +15,8 @@ const modalSpan = document.querySelectorAll(".close");
 const modalCloseBtn = document.querySelector(".close-thanks");
 const thanks = document.querySelector(".thanks");
 const form = document.forms["reserve"]
+const today = new Date().toISOString().split('T')[0];
+  document.getElementById('birthdate').max = today;
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
