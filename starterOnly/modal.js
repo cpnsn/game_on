@@ -10,7 +10,6 @@ function editNav() {
 // DOM Elements
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
-const formData = document.querySelectorAll(".formData");
 const modalSpan = document.querySelectorAll(".close");
 const modalCloseBtn = document.querySelector(".close-thanks");
 const thanks = document.querySelector(".thanks");
@@ -51,14 +50,16 @@ function validateInputs() {
 
   for (const input of inputs) {
     const error = document.getElementById(`error-${input.id}`);
+    const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ-' ]{2,}$/;
+    const emailRegex = /^\S+@\S+\.\S+$/;
     let isValidInput = true;
-    if (input.id === 'first' && !/^[A-Za-zÀ-ÖØ-öø-ÿ-' ]{2,}$/.test(input.value)) {
+    if (input.id === 'first' && !nameRegex.test(input.value)) {
       error.style.display = "block";
       isValidInput = false;
-    } else if (input.id === 'last' && !/^[A-Za-zÀ-ÖØ-öø-ÿ-' ]{2,}$/.test(input.value)) {
+    } else if (input.id === 'last' && !nameRegex.test(input.value)) {
       error.style.display = "block";
       isValidInput = false;
-    } else if (input.id === 'email' && !/^\S+@\S+\.\S+$/.test(input.value)) {
+    } else if (input.id === 'email' && !emailRegex.test(input.value)) {
       error.style.display = "block";
       isValidInput = false;
     } else if (input.id === 'birthdate' && !input.value) {
@@ -129,5 +130,6 @@ form.addEventListener('submit', function(e) {
   if (validate()) {
     thanks.style.display = "flex";
     modalbg.style.display = "none";
+    form.reset();
   } 
 })
